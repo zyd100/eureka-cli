@@ -1,0 +1,17 @@
+#fetch-registry表示是否从EurekaServer获取注册信息，因为目前是单点server，所以false
+#register-with-eureka表示是否将自己注册到EurekaServer，因为当前就是server所以false
+# service-url 设置eureka交互地址
+
+
+spring:
+  application:
+    name: eureka-server
+
+
+server:
+  port: 8762
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
