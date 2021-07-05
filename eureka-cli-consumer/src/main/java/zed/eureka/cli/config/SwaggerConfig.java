@@ -1,20 +1,18 @@
 package zed.eureka.cli.config;
 
-import com.google.common.collect.Lists;
+import io.swagger.models.auth.In;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.schema.ModelRef;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.Parameter;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -34,26 +32,32 @@ public class SwaggerConfig {
                 .contact(new Contact("", "", "")).build();
     }
 
+    private List<SecurityContext> securityContexts() {
+        return Collections.singletonList(
+                SecurityContext.builder()
+                        .securityReferences(Collections.singletonList(new SecurityReference("TOKEN", new AuthorizationScope[]{new AuthorizationScope("global", "")})))
+                        .build()
+        );
+    }
+
+    private List<SecurityScheme> securitySchemes() {
+        ApiKey apiKey = new ApiKey("TOKEN", "token", In.HEADER.toValue());
+        return Collections.singletonList(apiKey);
+    }
+
     @Bean
     public Docket customImplementation() {
-        ParameterBuilder builder = new ParameterBuilder();
-        Parameter parameter = builder
-                .parameterType("header") //参数类型支持header, cookie, body, query etc
-                .name("Token") //参数名
-                .description("请输入您的JWT Token")
-                .modelRef(new ModelRef("string"))//指定参数值的类型
-                .required(false)
-                .build();
-        List<Parameter> parameters = Lists.newArrayList(parameter);
+
 
         return new Docket(DocumentationType.SWAGGER_2)
-                // TODO: 2017/11/2 等等待配置域名
-                //.host()
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("zed.eureka.cli"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(this.apiInfo())
-                .globalOperationParameters(parameters);
+                // 授权信息设置，必要的header token等认证信息
+                .securitySchemes(securitySchemes())
+                // 授权信息全局应用
+                .securityContexts(securityContexts());
     }
 }
