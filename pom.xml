@@ -21,6 +21,7 @@
     </properties>
     <modules>
         <module>eureka-cli-common</module>
+        <module>eureka-cli-server</module>
     </modules>
     <dependencies>
         <dependency>
