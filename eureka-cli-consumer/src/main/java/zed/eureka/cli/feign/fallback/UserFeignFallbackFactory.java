@@ -3,7 +3,7 @@ package zed.eureka.cli.feign.fallback;
 import feign.hystrix.FallbackFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import zed.eureka.cli.dto.UserDto;
+import zed.eureka.cli.entity.UserDto;
 import zed.eureka.cli.feign.client.UserFeignClient;
 
 @Slf4j

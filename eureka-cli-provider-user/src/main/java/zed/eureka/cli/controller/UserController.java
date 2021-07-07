@@ -7,18 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import zed.eureka.cli.entity.UserDto;
-import zed.eureka.cli.feign.client.UserFeignClient;
+import zed.eureka.cli.entity.User;
+import zed.eureka.cli.mapper.UserDao;
+
 
 @RestController
-public class MovieController {
+public class UserController {
 
     @Autowired
-    private UserFeignClient userFeignClient;
+    private UserDao userDao;
 
     @GetMapping("/{id}")
-    public UserDto findById(@PathVariable(name = "id") String id) {
-        return userFeignClient.getUser(Integer.parseInt(id));
+    public User findById(@PathVariable(name = "id") String id) {
+        return userDao.selectById(id);
     }
 
 

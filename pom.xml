@@ -22,6 +22,7 @@
     <modules>
         <module>eureka-cli-common</module>
         <module>eureka-cli-server</module>
+        <module>eureka-cli-provider-user</module>
         <module>eureka-cli-consumer</module>
     </modules>
     <dependencies>
