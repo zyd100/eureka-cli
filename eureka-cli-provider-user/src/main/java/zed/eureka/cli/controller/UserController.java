@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import zed.eureka.cli.entity.User;
 import zed.eureka.cli.mapper.UserDao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @RestController
 public class UserController {
